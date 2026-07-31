@@ -1,0 +1,30 @@
+# render.yaml
+# Render Blueprint for deploying blind-date-bot as a background worker.
+# Docs: https://render.com/docs/blueprint-spec
+
+services:
+  - type: worker
+    name: blind-date-bot
+    runtime: python
+    plan: starter
+    region: oregon
+    branch: main
+    buildCommand: pip install -r requirements.txt
+    startCommand: python app.py
+    envVars:
+      - key: BOT_TOKEN
+        sync: false
+      - key: MONGO_URI
+        sync: false
+      - key: MONGO_DB_NAME
+        value: blind_date_bot
+      - key: ADMIN_IDS
+        sync: false
+      - key: MIN_AGE
+        value: "18"
+      - key: MAX_AGE
+        value: "99"
+      - key: ENVIRONMENT
+        value: production
+      - key: PYTHON_VERSION
+        value: "3.12.7"
