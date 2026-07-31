@@ -10,6 +10,7 @@ import logging
 
 from motor.motor_asyncio import AsyncIOMotorClient, AsyncIOMotorDatabase
 from pymongo.errors import PyMongoError
+import certifi
 
 from config import settings
 
@@ -29,9 +30,10 @@ async def init_db() -> None:
 
     try:
         _client = AsyncIOMotorClient(
-            settings.MONGO_URI,
-            serverSelectionTimeoutMS=5000,
-        )
+    settings.MONGO_URI,
+    serverSelectionTimeoutMS=5000,
+    tlsCAFile=certifi.where(),
+)
         _db = _client[settings.MONGO_DB_NAME]
 
         # Verify the connection is actually alive
